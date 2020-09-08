@@ -14,7 +14,9 @@
   "license": "ISC",
   "dependencies": {
     "is-url": "^1.2.4",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "mongoose": "^5.10.3",
+    "supergoose": "^0.2.6"
   },
   "devDependencies": {
     "jest": "^26.4.2"
