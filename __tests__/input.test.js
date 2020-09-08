@@ -11,15 +11,15 @@ minimist.mockImplementation(() => {
 const Input =  require('../lib/input.js');
 describe('Input Module', ()=> {
 
-  it('getMethod() has "Invalid" default value with no valid input', () =>{
+  it('getMethod() has "undefined" default value with no valid input', () =>{
     let input = new Input();
-    expect(input.getMethod()).toEqual(undefined);
-    expect(input.getMethod({ _: [], ad: 'data'})).toEqual("Invalid");
+    expect(input.getMethods()).toEqual(undefined);
+    expect(input.getMethods({ _: [], ad: 'data'})).toEqual(["", "N/A", false, "", ""]);
   });
 
   it('getMethod() has a key with a proper input', () =>{
     let input = new Input();
-    expect(input.getMethod({ _: [], a: 'data'})).toEqual('a');
-    expect(input.getMethod({ _: [], add: 'data'})).toEqual('add');
+    expect(input.getMethods({ _: [], a: 'data'})).toEqual(["a", "N/A", false, "", ""]);
+    expect(input.getMethods({ _: [], add: 'data'})).toEqual(["add", "N/A", false, "", ""]);
   });
 })
