@@ -13,8 +13,8 @@ describe('Notes Module', ()=> {
   });
 
   it('execute() should work with an input', () =>{
-    const notes = new Notes();
-    notes.execute(['a', 'This works!']);
+    const notes = new Notes(['a', 'This works!']);
+    notes.execute();
     expect(console.log).toHaveBeenCalled();
     });
 });
