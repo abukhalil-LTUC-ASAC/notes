@@ -6,6 +6,7 @@ const Input = require('./lib/input.js');
 const Notes = require('./lib/notes.js');
 
 const input = new Input();
+const notes = new Notes(input.data);
 
-Notes.execute(input);
 
+notes.valid() ? notes.execute() : notes.help();
