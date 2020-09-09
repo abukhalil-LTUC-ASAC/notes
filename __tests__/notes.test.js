@@ -1,47 +1,48 @@
 'use strict';
 
-const Notes = require('../lib/notes');
+const schema = require('../lib/model/notes-schema');
+const NotesDB = require('../lib/model/notes-collection');
 
-var supergoose = require('supergoose');
-var mongoose = require('mongoose');
+require('@code-fellows/supergoose');
 
-var noteSchema = new mongoose.Schema({
-  Text: {type: String, require: true},
-  Category: {type: String}
-});
-
-noteSchema.plugin(supergoose, {instance: mongoose});
-
-// spy on the log
-jest.spyOn(global.console, 'log');
-
-
-describe('Notes Module', ()=> {
-  // deals with process.exit()
-  const setProperty = (object, property, value) => {
-    const originalProperty = Object.getOwnPropertyDescriptor(object, property)
-    Object.defineProperty(object, property, { value })
-    return originalProperty
-  };
-  const mockExit = jest.fn();
-  setProperty(process, 'exit', mockExit);
-
-  it('execute() does nothing with no input', async () =>{
-    const notes = new Notes({});
-    await notes.execute();
-    expect(console.log).toHaveBeenCalled();
-    expect(mockExit).toHaveBeenCalledWith('ERROR_CODE');
-
+describe('Note Model', () => {
+  it('can create a new Note item', async () => {
+      let obj = { Text: 'test Note 1', Category: 'Schedule'};
+      const record = await NotesDB.save(obj);
+      Object.keys(obj).forEach(key => {
+        expect(record[key]).toEqual(obj[key]);
+      });
   });
 
-  it('execute() should work with an input', async () =>{
-    const notes = new Notes({
-      Text: 'add Note',
-      Category: 'Spy'});
-    await notes.execute();
-    expect(console.log).toHaveBeenCalled();
-    expect(mockExit).toHaveBeenCalledWith('ERROR_CODE');
+  it('can get() a note item', async ()=> {
+    let obj = { Text: 'test Note 2', Category: 'Study'};
+    const record = await NotesDB.save(obj);
+    const note = await NotesDB.get(record._id);
+    Object.keys(obj).forEach(key => {
+      expect(note[key]).toEqual(obj[key]);
     });
-    
+  }); 
+
+  it('can delete() a note item', async ()=> {
+    let obj = { Text: 'test Note 3', Category: 'Work'};
+    const record = await NotesDB.save(obj);
+    await NotesDB.deleteOne(record._id);
+    const note = await NotesDB.get(record._id);
+    Object.keys(obj).forEach(key => {
+      expect(note).toEqual(null);
+    });
+  }); 
+
+  it('can update() a note item', async ()=> {
+    let obj = { Text: 'test Note 4', Category: 'Morning'};
+    const record = await NotesDB.save(obj);
+
+    let search = {updateID: `${record._id}`, update: {Text: 'Not a note anymore', Category: 'Evening'}}; // tests with custom input
+    await NotesDB.updateOne(search);
+    const note = await NotesDB.get(record._id); // gets updated note
+    Object.keys(obj).forEach(key => {
+      expect(note[key]).toEqual(search.update[key]);
+    });
+  }); 
 });
 
