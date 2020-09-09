@@ -14,12 +14,12 @@ describe('Input Module', ()=> {
   it('getMethod() has "undefined" default value with no valid input', () =>{
     let input = new Input();
     expect(input.getMethods()).toEqual(undefined);
-    expect(input.getMethods({ _: [], ad: 'data'})).toEqual(["", "N/A", false, "", ""]);
+    expect(input.getMethods({ _: [], ad: 'data'})).toEqual(["", "N/A", "", "", ""]);
   });
 
   it('getMethod() has a key with a proper input', () =>{
     let input = new Input();
-    expect(input.getMethods({ _: [], a: 'data'})).toEqual(["a", "N/A", false, "", ""]);
-    expect(input.getMethods({ _: [], add: 'data'})).toEqual(["add", "N/A", false, "", ""]);
+    expect(input.getMethods({ _: [], a: 'data'})).toEqual(["a", "N/A", "", "", ""]);
+    expect(input.getMethods({ _: [], add: 'data'})).toEqual(["add", "N/A", "", "", ""]);
   });
 })

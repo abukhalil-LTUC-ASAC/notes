@@ -18,4 +18,13 @@ const Notes = require('./lib/notes.js');
 const input = new Input();
 const notes = new Notes(input);
 
-notes.valid() ? notes.execute() : notes.help();
+async function startApp() {
+  if (notes.valid()) {
+    await notes.execute()
+  } else {
+    notes.help();
+  } 
+  mongoose.disconnect();
+}
+
+startApp();
