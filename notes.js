@@ -15,14 +15,14 @@ mongoose.connect(MONGOOSE_URL, {
 const Input = require('./lib/input.js');
 const Notes = require('./lib/notes.js');
 
-const input = new Input();
+const input = new Input();  
 const notes = new Notes(input);
 
 async function startApp() {
-  if (notes.valid()) {
-    await notes.execute()
+  if (notes.valid() && !input.help) {
+    await notes.execute();
   } else {
-    notes.help();
+    await notes.help();
   } 
   mongoose.disconnect();
 }
