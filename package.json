@@ -19,7 +19,8 @@
   },
   "devDependencies": {
     "jest": "^26.4.2",
-    "@code-fellows/supergoose": "^1.0.11"
+    "@code-fellows/supergoose": "^1.0.11",
+    "supertest": "4.0.2"
   },
   "jest": {
     "testEnvironment": "node"
